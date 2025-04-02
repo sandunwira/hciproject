@@ -1,2 +1,2 @@
 # HCIProject
-Repo for HCI Module Project
+Repo for HCI Module Web Project
