@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 function HomePage() {
 	return (
@@ -25,7 +26,7 @@ function HomePage() {
 						</button>
 					</div>
 				</header>
-				
+
 				{/* Features Section */}
 				<section className="container mx-auto px-4 py-16">
 					<h2 className="text-3xl font-bold text-center mb-12">
@@ -43,7 +44,7 @@ function HomePage() {
 								<p className="text-gray-400">Set room size, shape, and color scheme to create a personalized design environment for your clients.</p>
 							</div>
 						</div>
-						
+
 						<div className="flex flex-col gap-4 p-6 bg-gray-800 rounded-lg">
 							<div className="bg-blue-500 p-3 rounded-lg h-fit w-fit">
 								<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -55,7 +56,7 @@ function HomePage() {
 								<p className="text-gray-400">Transform 2D designs into immersive 3D models to help clients visualize their future spaces.</p>
 							</div>
 						</div>
-						
+
 						<div className="flex flex-col gap-4 p-6 bg-gray-800 rounded-lg">
 							<div className="bg-blue-500 p-3 rounded-lg h-fit w-fit">
 								<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,7 +68,7 @@ function HomePage() {
 								<p className="text-gray-400">Modify colors and add realistic shading to furniture items individually or as a whole design.</p>
 							</div>
 						</div>
-						
+
 						<div className="flex flex-col gap-4 p-6 bg-gray-800 rounded-lg">
 							<div className="bg-blue-500 p-3 rounded-lg h-fit w-fit">
 								<svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,7 +82,7 @@ function HomePage() {
 						</div>
 					</div>
 				</section>
-				
+
 				{/* Design Process Section */}
 				<section className="container mx-auto px-4 py-16">
 					<h2 className="text-3xl font-bold text-center mb-12">
@@ -93,13 +94,13 @@ function HomePage() {
 							<h3 className="text-xl font-semibold mb-4">Create Room Profile</h3>
 							<p className="text-gray-400">Input room dimensions, shape, and existing color schemes to create a digital twin of your client's space.</p>
 						</div>
-						
+
 						<div className="bg-gray-800 p-6 rounded-lg text-center">
 							<div className="bg-blue-500 text-2xl font-bold rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">2</div>
 							<h3 className="text-xl font-semibold mb-4">Add Furniture</h3>
 							<p className="text-gray-400">Browse our catalog of chairs, tables, and other items to place in the design. Adjust sizes and positions as needed.</p>
 						</div>
-						
+
 						<div className="bg-gray-800 p-6 rounded-lg text-center">
 							<div className="bg-blue-500 text-2xl font-bold rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">3</div>
 							<h3 className="text-xl font-semibold mb-4">Visualize in 3D</h3>
@@ -107,7 +108,7 @@ function HomePage() {
 						</div>
 					</div>
 				</section>
-				
+
 				{/* Furniture Categories */}
 				<section className="container mx-auto px-4 py-16">
 					<h2 className="text-3xl font-bold text-center mb-4">
@@ -125,7 +126,7 @@ function HomePage() {
 							<p className="text-gray-400 mb-4">Dining chairs, armchairs, recliners, and more</p>
 							<button className="w-full border border-blue-500 text-blue-500 py-2 rounded-lg hover:bg-blue-500 hover:text-white transition-colors">Browse Chairs</button>
 						</div>
-						
+
 						<div className="bg-gray-800 p-6 rounded-lg text-center">
 							<div className="h-48 bg-gray-700 rounded-lg mb-4 flex items-center justify-center">
 								<svg className="w-24 h-24 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,7 +137,7 @@ function HomePage() {
 							<p className="text-gray-400 mb-4">Dining tables, coffee tables, side tables, and desks</p>
 							<button className="w-full border border-blue-500 text-blue-500 py-2 rounded-lg hover:bg-blue-500 hover:text-white transition-colors">Browse Tables</button>
 						</div>
-						
+
 						<div className="bg-gray-800 p-6 rounded-lg text-center">
 							<div className="h-48 bg-gray-700 rounded-lg mb-4 flex items-center justify-center">
 								<svg className="w-24 h-24 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -149,7 +150,7 @@ function HomePage() {
 						</div>
 					</div>
 				</section>
-				
+
 				{/* CTA Section */}
 				<section className="bg-blue-500 py-16">
 					<div className="container mx-auto px-4 text-center">
@@ -163,6 +164,7 @@ function HomePage() {
 					</div>
 				</section>
 			</div>
+			<Footer />
 		</>
 	);
 }
