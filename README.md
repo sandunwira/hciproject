@@ -39,7 +39,7 @@ FurnitureViz is a desktop application developed for a furniture design company t
 
 3. Start the development server:
    ```
-   npm start
+   npm run dev
    ```
 
 4. The application will be available at `http://localhost:3000`
