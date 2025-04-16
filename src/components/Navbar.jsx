@@ -57,9 +57,9 @@ function Navbar() {
               </div>
             ) : (
               <>
-                <button className="text-gray-300 hover:text-white transition-colors">
+                <Link to="/login" className="text-gray-300 hover:text-white transition-colors">
                   Designer Login
-                </button>
+                </Link>
                 <button className="bg-blue-500 px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
                   Get Started
                 </button>

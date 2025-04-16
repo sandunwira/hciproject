@@ -9,7 +9,7 @@ function TermsOfServicePage() {
       <div className="w-full min-h-screen bg-[#0A1628] text-white">
         <div className="container mx-auto px-4 py-16">
           <h1 className="text-4xl font-bold mb-8 text-center">Terms of Service</h1>
-          
+
           <div className="max-w-4xl mx-auto bg-gray-800 p-8 rounded-lg">
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">1. Introduction</h2>
@@ -20,7 +20,7 @@ function TermsOfServicePage() {
                 By accessing or using our Services, you agree to be bound by these Terms. If you do not agree to these Terms, please do not use our Services.
               </p>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">2. Account Registration</h2>
               <p className="text-gray-300 mb-4">
@@ -33,7 +33,7 @@ function TermsOfServicePage() {
                 We reserve the right to suspend or terminate your account if any information provided during registration or thereafter proves to be inaccurate, false, or misleading, or if you violate any provision of these Terms.
               </p>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">3. Use of Services</h2>
               <p className="text-gray-300 mb-4">
@@ -52,7 +52,7 @@ function TermsOfServicePage() {
                 <li>Impersonate any person or entity, or falsely state or otherwise misrepresent your affiliation with a person or entity</li>
               </ul>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">4. Intellectual Property</h2>
               <p className="text-gray-300 mb-4">
@@ -67,7 +67,7 @@ function TermsOfServicePage() {
                 <li>You may print or download one copy of a reasonable number of pages of the website for your own personal, non-commercial use and not for further reproduction, publication, or distribution</li>
               </ul>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">5. User Content</h2>
               <p className="text-gray-300 mb-4">
@@ -85,7 +85,7 @@ function TermsOfServicePage() {
                 <li>Your User Content does not contain any material that is defamatory, obscene, indecent, abusive, offensive, harassing, violent, hateful, inflammatory, or otherwise objectionable</li>
               </ul>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">6. Disclaimer of Warranties</h2>
               <p className="text-gray-300 mb-4">
@@ -101,7 +101,7 @@ function TermsOfServicePage() {
                 <li>The results of using the Services will meet your requirements</li>
               </ul>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">7. Limitation of Liability</h2>
               <p className="text-gray-300 mb-4">
@@ -114,28 +114,28 @@ function TermsOfServicePage() {
                 <li>Unauthorized access, use, or alteration of your transmissions or content</li>
               </ul>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">8. Indemnification</h2>
               <p className="text-gray-300">
                 You agree to defend, indemnify, and hold harmless FurnitureViz, its directors, employees, partners, agents, suppliers, and affiliates from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to your violation of these Terms or your use of the Services.
               </p>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">9. Governing Law</h2>
               <p className="text-gray-300">
                 These Terms shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to its conflict of law provisions. Any legal action or proceeding arising out of or relating to these Terms or your use of the Services shall be exclusively brought in the courts located in [Your Jurisdiction], and you consent to the personal jurisdiction of such courts.
               </p>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">10. Changes to Terms</h2>
               <p className="text-gray-300">
                 We reserve the right to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at our sole discretion. By continuing to access or use our Services after any revisions become effective, you agree to be bound by the revised terms.
               </p>
             </section>
-            
+
             <section className="mb-8">
               <h2 className="text-2xl font-semibold mb-4">11. Contact Us</h2>
               <p className="text-gray-300 mb-2">
@@ -143,11 +143,11 @@ function TermsOfServicePage() {
               </p>
               <div className="text-gray-300">
                 <p>Email: terms@furnitureviz.com</p>
-                <p>Address: 123 Design Street, Suite 456, Visualization City, VC 12345</p>
-                <p>Phone: +1 (555) 123-4567</p>
+                <p>Address: 42 Galle Road, Colombo 03, Western Province, Sri Lanka</p>
+                <p>Phone: +94 11 234 5678</p>
               </div>
             </section>
-            
+
             <div className="text-gray-400 text-sm text-center pt-6 border-t border-gray-700">
               Last Updated: April 8, 2025
             </div>

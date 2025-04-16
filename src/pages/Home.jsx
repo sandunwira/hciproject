@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import AdvancedChairViewer from '../components/AdvancedChairModel';
@@ -21,9 +22,9 @@ function HomePage() {
 						advanced 2D and 3D visualization tools designed for professional interior designers.
 					</p>
 					<div className="flex justify-center gap-4">
-						<button className="bg-blue-500 px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+						<Link to="/login" className="bg-blue-500 px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
 							Designer Login
-						</button>
+						</Link>
 						<button className="border border-gray-600 px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors">
 							Learn More
 						</button>
@@ -173,9 +174,9 @@ function HomePage() {
 							Ready to start designing for your clients?
 						</h2>
 						<p className="mb-8">Log in to access our professional furniture design tools.</p>
-						<button className="bg-white text-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+						<Link to="/login" className="bg-white text-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
 							Designer Login
-						</button>
+						</Link>
 					</div>
 				</section>
 			</div>
