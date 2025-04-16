@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>FurnitureViz Favicon</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#0A1628" x="0" y="0" width="32" height="32" rx="4"></rect>
+        <g transform="translate(4, 4)" stroke="#3B82F6" stroke-width="2">
+            <!-- Chair icon -->
+            <path d="M6,4 L18,4 C19.1045695,4 20,4.8954305 20,6 L20,12 L4,12 L4,6 C4,4.8954305 4.8954305,4 6,4 Z" fill="#0A1628"></path>
+            <path d="M4,12 L20,12 L20,16 C20,17.1045695 19.1045695,18 18,18 L6,18 C4.8954305,18 4,17.1045695 4,16 L4,12 Z" fill="#0A1628"></path>
+            <line x1="7" y1="18" x2="7" y2="22" stroke-linecap="round"></line>
+            <line x1="17" y1="18" x2="17" y2="22" stroke-linecap="round"></line>
+            <line x1="10" y1="8" x2="14" y2="8" stroke-linecap="round"></line>
+        </g>
+    </g>
+</svg>
