@@ -9,6 +9,7 @@ import ContactPage from './pages/Contact';
 import LoginPage from './pages/Login';
 import SignUpPage from './pages/SignUp';
 import DashboardPage from './pages/Dashboard';
+import ShowcasePage from './pages/Showcase';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/showcase" element={<ShowcasePage />} />
         </Routes>
       </Router>
     </AuthProvider>

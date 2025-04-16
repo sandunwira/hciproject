@@ -115,11 +115,23 @@ const ProceduralChair = React.forwardRef((props, ref) => {
 
 // Main component that renders the 3D scene
 export default function AdvancedChairViewer({ modelUrl }) {
+  // For standalone usage (like in the modal)
+  if (typeof window !== 'undefined' && window.location.pathname.includes('/showcase')) {
+    // In showcase page, just return the model without Canvas wrapper
+    return <ChairModel url={modelUrl} />;
+  }
+
+  // For other usages, return the full Canvas setup
   return (
     <div className="h-full w-full">
-      <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 1, 3.5], fov: 40 }}>
+      <Canvas
+        shadows
+        dpr={[1, 1.5]}
+        camera={{ position: [0, 1, 3.5], fov: 40 }}
+        gl={{ powerPreference: "low-power" }}
+      >
         <ambientLight intensity={0.7} />
-        <spotLight position={[5, 8, 5]} angle={0.15} penumbra={1} intensity={1} castShadow />
+        <spotLight position={[5, 8, 5]} angle={0.15} penumbra={1} intensity={1} castShadow={false} />
         <PerspectiveCamera makeDefault position={[0, 0.5, 3]} fov={40} />
 
         {/* Position adjusted to center the chair */}
