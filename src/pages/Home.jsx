@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import AdvancedChairViewer from '../components/AdvancedChairModel';
+import TableViewer from '../components/TableModel';
+import CabinetViewer from '../components/CabinetModel';
 
 function HomePage() {
 	return (
@@ -18,9 +22,9 @@ function HomePage() {
 						advanced 2D and 3D visualization tools designed for professional interior designers.
 					</p>
 					<div className="flex justify-center gap-4">
-						<button className="bg-blue-500 px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
+						<Link to="/login" className="bg-blue-500 px-6 py-3 rounded-lg hover:bg-blue-600 transition-colors">
 							Designer Login
-						</button>
+						</Link>
 						<button className="border border-gray-600 px-6 py-3 rounded-lg hover:bg-gray-800 transition-colors">
 							Learn More
 						</button>
@@ -117,10 +121,14 @@ function HomePage() {
 					<p className="text-center text-gray-400 mb-12">Explore our extensive catalog of high-quality furniture for every room</p>
 					<div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
 						<div className="bg-gray-800 p-6 rounded-lg text-center">
-							<div className="h-48 bg-gray-700 rounded-lg mb-4 flex items-center justify-center">
-								<svg className="w-24 h-24 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-								</svg>
+							<div className="h-48 bg-gray-700 rounded-lg mb-4 overflow-hidden">
+								<Suspense fallback={
+									<div className="w-full h-full flex items-center justify-center">
+										<div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+									</div>
+								}>
+									<AdvancedChairViewer />
+								</Suspense>
 							</div>
 							<h3 className="text-xl font-semibold mb-2">Chairs</h3>
 							<p className="text-gray-400 mb-4">Dining chairs, armchairs, recliners, and more</p>
@@ -128,10 +136,14 @@ function HomePage() {
 						</div>
 
 						<div className="bg-gray-800 p-6 rounded-lg text-center">
-							<div className="h-48 bg-gray-700 rounded-lg mb-4 flex items-center justify-center">
-								<svg className="w-24 h-24 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-								</svg>
+							<div className="h-48 bg-gray-700 rounded-lg mb-4 overflow-hidden">
+								<Suspense fallback={
+									<div className="w-full h-full flex items-center justify-center">
+										<div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+									</div>
+								}>
+									<TableViewer />
+								</Suspense>
 							</div>
 							<h3 className="text-xl font-semibold mb-2">Tables</h3>
 							<p className="text-gray-400 mb-4">Dining tables, coffee tables, side tables, and desks</p>
@@ -139,10 +151,14 @@ function HomePage() {
 						</div>
 
 						<div className="bg-gray-800 p-6 rounded-lg text-center">
-							<div className="h-48 bg-gray-700 rounded-lg mb-4 flex items-center justify-center">
-								<svg className="w-24 h-24 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
-								</svg>
+							<div className="h-48 bg-gray-700 rounded-lg mb-4 overflow-hidden">
+								<Suspense fallback={
+									<div className="w-full h-full flex items-center justify-center">
+										<div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
+									</div>
+								}>
+									<CabinetViewer />
+								</Suspense>
 							</div>
 							<h3 className="text-xl font-semibold mb-2">Other Furniture</h3>
 							<p className="text-gray-400 mb-4">Cabinets, shelves, sofas, and more for complete room design</p>
@@ -158,9 +174,9 @@ function HomePage() {
 							Ready to start designing for your clients?
 						</h2>
 						<p className="mb-8">Log in to access our professional furniture design tools.</p>
-						<button className="bg-white text-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+						<Link to="/login" className="bg-white text-blue-500 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
 							Designer Login
-						</button>
+						</Link>
 					</div>
 				</section>
 			</div>
