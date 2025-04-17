@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import supabase from '../utils/Supabase';
+import { mockSignUp, mockSignIn, mockSignOut, initMockAuth } from '../services/mockAuth';
 
 const AuthContext = createContext({});
 
@@ -8,24 +8,34 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check active sessions and sets the user
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
-
-    // Listen for changes on auth state (sign in, sign out, etc.)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
+    // Initialize mock auth and get stored user
+    const storedUser = initMockAuth();
+    setUser(storedUser);
+    setLoading(false);
   }, []);
 
   const value = {
-    signUp: (data) => supabase.auth.signUp(data),
-    signIn: (data) => supabase.auth.signInWithPassword(data),
-    signOut: () => supabase.auth.signOut(),
+    signUp: async (data) => {
+      const result = await mockSignUp(data);
+      if (!result.error) {
+        setUser(result.user);
+      }
+      return result;
+    },
+    signIn: async (data) => {
+      const result = await mockSignIn(data);
+      if (!result.error) {
+        setUser(result.user);
+      }
+      return result;
+    },
+    signOut: async () => {
+      const result = await mockSignOut();
+      if (!result.error) {
+        setUser(null);
+      }
+      return result;
+    },
     user,
   };
 

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="400px" viewBox="0 0 400 400" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Chair</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#4B5563" x="0" y="0" width="400" height="400"></rect>
+        <g transform="translate(100, 80)" stroke="#9CA3AF" stroke-width="8">
+            <!-- Chair seat -->
+            <rect x="0" y="120" width="200" height="40" rx="4"></rect>
+            <!-- Chair back -->
+            <rect x="0" y="0" width="200" height="120" rx="4"></rect>
+            <!-- Chair legs -->
+            <line x1="30" y1="160" x2="30" y2="240" stroke-linecap="round"></line>
+            <line x1="170" y1="160" x2="170" y2="240" stroke-linecap="round"></line>
+        </g>
+    </g>
+</svg>

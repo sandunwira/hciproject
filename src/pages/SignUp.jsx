@@ -16,33 +16,33 @@ function SignUpPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!email || !password || !confirmPassword) {
       setError('Please fill in all fields');
       return;
     }
-    
+
     if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
     }
-    
+
     if (password.length < 6) {
       setError('Password must be at least 6 characters');
       return;
     }
-    
+
     try {
       setError('');
       setLoading(true);
-      
+
       const { error } = await signUp({ email, password });
-      
+
       if (error) throw error;
-      
+
       // Show success message
       setSuccess(true);
-      
+
       // Redirect to login after a delay
       setTimeout(() => {
         navigate('/login');
@@ -55,6 +55,11 @@ function SignUpPage() {
     }
   };
 
+  // Helper function to go to login page
+  const goToLogin = () => {
+    navigate('/login');
+  };
+
   return (
     <>
       <Navbar />
@@ -62,19 +67,19 @@ function SignUpPage() {
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-md mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
             <h1 className="text-3xl font-bold mb-6 text-center">Create Account</h1>
-            
+
             {error && (
               <div className="bg-red-800/50 text-red-200 p-4 rounded-lg mb-6">
                 {error}
               </div>
             )}
-            
+
             {success && (
               <div className="bg-green-800/50 text-green-200 p-4 rounded-lg mb-6">
                 Account created successfully! You will be redirected to the login page.
               </div>
             )}
-            
+
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-300 mb-2">Email</label>
@@ -87,7 +92,7 @@ function SignUpPage() {
                   required
                 />
               </div>
-              
+
               <div className="mb-4">
                 <label htmlFor="password" className="block text-gray-300 mb-2">Password</label>
                 <input
@@ -100,7 +105,7 @@ function SignUpPage() {
                 />
                 <p className="text-gray-400 text-sm mt-1">Must be at least 6 characters</p>
               </div>
-              
+
               <div className="mb-6">
                 <label htmlFor="confirmPassword" className="block text-gray-300 mb-2">Confirm Password</label>
                 <input
@@ -112,7 +117,7 @@ function SignUpPage() {
                   required
                 />
               </div>
-              
+
               <button
                 type="submit"
                 disabled={loading || success}
@@ -121,14 +126,21 @@ function SignUpPage() {
                 {loading ? 'Creating Account...' : 'Create Account'}
               </button>
             </form>
-            
+
             <div className="mt-8 pt-6 border-t border-gray-700 text-center">
-              <p className="text-gray-400">
+              <p className="text-gray-400 mb-4">
                 Already have an account?{' '}
                 <Link to="/login" className="text-blue-400 hover:underline">
                   Sign in
                 </Link>
               </p>
+              <button
+                type="button"
+                onClick={goToLogin}
+                className="w-full bg-gray-600 hover:bg-gray-700 transition-colors text-white font-semibold py-3 px-6 rounded-lg"
+              >
+                Back to Login
+              </button>
             </div>
           </div>
         </div>

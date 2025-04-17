@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import OptimizedModelCard from '../components/OptimizedModelCard';
 import ModelViewerModal from '../components/ModelViewerModal';
+import { useAuth } from '../context/AuthContext';
 
 // Sample furniture data
 const furnitureData = [
@@ -33,6 +35,8 @@ function ShowcasePage() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Simulate loading time and then set loading to false
   useEffect(() => {
@@ -42,6 +46,11 @@ function ShowcasePage() {
 
     return () => clearTimeout(timer);
   }, []);
+
+  // Navigate to the customization page
+  const navigateToCustomize = (item) => {
+    navigate('/customize', { state: { item } });
+  };
 
   // Filter and sort furniture based on active filter, search query, and sort option
   useEffect(() => {
@@ -89,8 +98,24 @@ function ShowcasePage() {
           </div>
         ) : (
         <div className="container mx-auto px-4 py-16">
-          <h1 className="text-4xl font-bold mb-2 text-center">Furniture Showcase</h1>
-          <p className="text-gray-400 text-center mb-8">Explore our collection of high-quality 3D furniture models</p>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+            <div>
+              <h1 className="text-4xl font-bold mb-2 text-center md:text-left">Furniture Showcase</h1>
+              <p className="text-gray-400 text-center md:text-left">Explore our collection of high-quality 3D furniture models</p>
+            </div>
+            {user && (
+              <div className="mt-4 md:mt-0 flex justify-center">
+                <button
+                  onClick={() => navigate('/my-designs')}
+                  className="bg-blue-500 hover:bg-blue-600 transition-colors px-4 py-2 rounded-lg"
+                >
+                  My Saved Designs
+                </button>
+              </div>
+            )}
+          </div>
+
+
 
           {/* Filters and Search */}
           <div className="bg-gray-800 rounded-lg p-6 mb-8">
@@ -164,17 +189,28 @@ function ShowcasePage() {
           {furniture.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {furniture.map(item => (
-                <OptimizedModelCard
-                  key={item.id}
-                  type={item.type}
-                  name={item.name}
-                  description={item.description}
-                  price={item.price}
-                  onClick={() => {
-                    setSelectedItem(item);
-                    setIsModalOpen(true);
-                  }}
-                />
+                user ? (
+                  <OptimizedModelCard
+                    key={item.id}
+                    type={item.type}
+                    name={item.name}
+                    description={item.description}
+                    price={item.price}
+                    onClick={() => navigateToCustomize(item)}
+                  />
+                ) : (
+                  <OptimizedModelCard
+                    key={item.id}
+                    type={item.type}
+                    name={item.name}
+                    description={item.description}
+                    price={item.price}
+                    onClick={() => {
+                      setSelectedItem(item);
+                      setIsModalOpen(true);
+                    }}
+                  />
+                )
               ))}
             </div>
           ) : (

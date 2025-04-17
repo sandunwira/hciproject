@@ -6,6 +6,9 @@ import { OrbitControls, PerspectiveCamera, Environment, useGLTF } from '@react-t
 function Cabinet(props) {
   const group = useRef();
 
+  // Extract customization props if provided
+  const { color = "#8B4513", material = { roughness: 0.7, metalness: 0.0 } } = props;
+
   // Rotate the cabinet slowly
   useFrame((state) => {
     if (group.current) {
@@ -18,13 +21,21 @@ function Cabinet(props) {
       {/* Cabinet main body */}
       <mesh position={[0, 0.5, 0]} castShadow receiveShadow>
         <boxGeometry args={[1, 1, 0.4]} />
-        <meshStandardMaterial color="#8B4513" roughness={0.7} />
+        <meshStandardMaterial
+          color={color}
+          roughness={material.roughness}
+          metalness={material.metalness}
+        />
       </mesh>
 
       {/* Cabinet interior (slightly darker) */}
       <mesh position={[0, 0.5, 0.01]} castShadow receiveShadow>
         <boxGeometry args={[0.94, 0.94, 0.38]} />
-        <meshStandardMaterial color="#6D4C41" roughness={0.8} />
+        <meshStandardMaterial
+          color={color}
+          roughness={material.roughness + 0.1}
+          metalness={material.metalness}
+        />
       </mesh>
 
       {/* Shelves */}
@@ -103,11 +114,11 @@ function CabinetGLTFModel({ url }) {
 }
 
 // Main component that renders the 3D scene
-export default function CabinetViewer({ modelUrl }) {
+export default function CabinetViewer({ modelUrl, color, material }) {
   // For standalone usage (like in the modal)
   if (typeof window !== 'undefined' && window.location.pathname.includes('/showcase')) {
     // In showcase page, just return the model without Canvas wrapper
-    return modelUrl ? <CabinetGLTFModel url={modelUrl} /> : <Cabinet />;
+    return modelUrl ? <CabinetGLTFModel url={modelUrl} /> : <Cabinet color={color} material={material} />;
   }
 
   // For other usages, return the full Canvas setup
@@ -128,7 +139,7 @@ export default function CabinetViewer({ modelUrl }) {
           {modelUrl ? (
             <CabinetGLTFModel url={modelUrl} />
           ) : (
-            <Cabinet />
+            <Cabinet color={color} material={material} />
           )}
         </group>
 

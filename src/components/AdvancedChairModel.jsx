@@ -39,24 +39,39 @@ function ChairModel({ url }) {
 
 // A more detailed procedural chair
 const ProceduralChair = React.forwardRef((props, ref) => {
+  // Extract customization props if provided
+  const { color = "#A0522D", material = { roughness: 0.7, metalness: 0.0 } } = props;
+
   return (
     <group ref={ref} {...props}>
       {/* Chair seat */}
       <mesh position={[0, 0.4, 0]} castShadow receiveShadow>
         <boxGeometry args={[0.8, 0.08, 0.8]} />
-        <meshStandardMaterial color="#A0522D" roughness={0.7} />
+        <meshStandardMaterial
+          color={color}
+          roughness={material.roughness}
+          metalness={material.metalness}
+        />
       </mesh>
 
       {/* Chair cushion */}
       <mesh position={[0, 0.48, 0]} castShadow receiveShadow>
         <boxGeometry args={[0.75, 0.05, 0.75]} />
-        <meshStandardMaterial color="#8B4513" roughness={0.9} />
+        <meshStandardMaterial
+          color={color}
+          roughness={material.roughness + 0.2}
+          metalness={material.metalness}
+        />
       </mesh>
 
       {/* Chair back - frame */}
       <mesh position={[0, 1, -0.35]} castShadow receiveShadow>
         <boxGeometry args={[0.8, 1.1, 0.05]} />
-        <meshStandardMaterial color="#A0522D" roughness={0.7} />
+        <meshStandardMaterial
+          color={color}
+          roughness={material.roughness}
+          metalness={material.metalness}
+        />
       </mesh>
 
       {/* Chair back - vertical slats */}
@@ -114,11 +129,11 @@ const ProceduralChair = React.forwardRef((props, ref) => {
 });
 
 // Main component that renders the 3D scene
-export default function AdvancedChairViewer({ modelUrl }) {
+export default function AdvancedChairViewer({ modelUrl, color, material }) {
   // For standalone usage (like in the modal)
   if (typeof window !== 'undefined' && window.location.pathname.includes('/showcase')) {
     // In showcase page, just return the model without Canvas wrapper
-    return <ChairModel url={modelUrl} />;
+    return <ChairModel url={modelUrl} color={color} material={material} />;
   }
 
   // For other usages, return the full Canvas setup
@@ -136,7 +151,7 @@ export default function AdvancedChairViewer({ modelUrl }) {
 
         {/* Position adjusted to center the chair */}
         <group position={[0, -0.7, 0]}>
-          <ChairModel url={modelUrl} />
+          <ChairModel url={modelUrl} color={color} material={material} />
         </group>
 
         <OrbitControls
