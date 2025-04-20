@@ -1,9 +1,16 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
-  // This should be replaced with actual auth state management
-  const isLoggedIn = false;
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/');
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 bg-[#0A1628]/90 backdrop-blur-sm z-50 border-b border-gray-800">
@@ -20,23 +27,46 @@ function Navbar() {
               Features
             </Link>
             <Link to="/showcase" className="text-gray-300 hover:text-white transition-colors">
-              Showcase
+              Furniture Showcase
             </Link>
-            <Link to="/pricing" className="text-gray-300 hover:text-white transition-colors">
-              Pricing
-            </Link>
+            {user && (
+              <>
+                <Link to="/room-planner/new" className="text-gray-300 hover:text-white transition-colors">
+                  Room Planner
+                </Link>
+                <Link to="/my-designs" className="text-gray-300 hover:text-white transition-colors">
+                  My Designs
+                </Link>
+              </>
+            )}
             <Link to="/contact" className="text-gray-300 hover:text-white transition-colors">
               Contact
             </Link>
           </div>
 
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="text-gray-300 hover:text-white"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {mobileMenuOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
+
           {/* Auth Buttons / Profile */}
-          <div className="flex items-center space-x-4">
-            {isLoggedIn ? (
+          <div className="hidden md:flex items-center space-x-4">
+            {user ? (
               <div className="relative group">
                 <button className="flex items-center space-x-2">
                   <div className="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center">
-                    <span className="text-sm font-medium text-white">JD</span>
+                    <span className="text-sm font-medium text-white">{user.email?.substring(0, 2).toUpperCase() || 'U'}</span>
                   </div>
                 </button>
                 {/* Dropdown Menu */}
@@ -50,7 +80,10 @@ function Navbar() {
                   <Link to="/settings" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
                     Settings
                   </Link>
-                  <button className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
+                  <button
+                    onClick={handleSignOut}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
+                  >
                     Sign Out
                   </button>
                 </div>
@@ -60,14 +93,51 @@ function Navbar() {
                 <Link to="/login" className="text-gray-300 hover:text-white transition-colors">
                   Designer Login
                 </Link>
-                <button className="bg-blue-500 px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                <Link to="/signup" className="bg-blue-500 px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
                   Get Started
-                </button>
+                </Link>
               </>
             )}
           </div>
         </div>
       </div>
+
+      {/* Mobile menu */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-gray-800 py-4 px-4">
+          <div className="flex flex-col space-y-3">
+            <Link to="/features" className="text-gray-300 hover:text-white transition-colors py-2">
+              Features
+            </Link>
+            <Link to="/showcase" className="text-gray-300 hover:text-white transition-colors py-2">
+              Furniture Showcase
+            </Link>
+            {user && (
+              <>
+                <Link to="/room-planner/new" className="text-gray-300 hover:text-white transition-colors py-2">
+                  Room Planner
+                </Link>
+                <Link to="/my-designs" className="text-gray-300 hover:text-white transition-colors py-2">
+                  My Designs
+                </Link>
+              </>
+            )}
+            <Link to="/contact" className="text-gray-300 hover:text-white transition-colors py-2">
+              Contact
+            </Link>
+            {!user && (
+              <>
+                <Link to="/login" className="text-gray-300 hover:text-white transition-colors py-2">
+                  Designer Login
+                </Link>
+                <Link to="/signup" className="bg-blue-500 px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                  Get Started
+                </Link>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
