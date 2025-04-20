@@ -6,6 +6,9 @@ import { OrbitControls, PerspectiveCamera, Environment, useGLTF } from '@react-t
 function Table(props) {
   const group = useRef();
 
+  // Extract customization props if provided
+  const { color = "#8B4513", material = { roughness: 0.7, metalness: 0.0 } } = props;
+
   // Rotate the table slowly
   useFrame((state) => {
     if (group.current) {
@@ -18,13 +21,21 @@ function Table(props) {
       {/* Table top */}
       <mesh position={[0, 0.7, 0]} castShadow receiveShadow>
         <boxGeometry args={[1.2, 0.08, 0.8]} />
-        <meshStandardMaterial color="#8B4513" roughness={0.7} />
+        <meshStandardMaterial
+          color={color}
+          roughness={material.roughness}
+          metalness={material.metalness}
+        />
       </mesh>
 
       {/* Table legs */}
       <mesh position={[0.5, 0.35, 0.3]} castShadow receiveShadow>
         <cylinderGeometry args={[0.04, 0.04, 0.7]} />
-        <meshStandardMaterial color="#5D4037" roughness={0.6} />
+        <meshStandardMaterial
+          color={color}
+          roughness={material.roughness + 0.1}
+          metalness={material.metalness}
+        />
       </mesh>
 
       <mesh position={[-0.5, 0.35, 0.3]} castShadow receiveShadow>
@@ -76,11 +87,11 @@ function TableGLTFModel({ url }) {
 }
 
 // Main component that renders the 3D scene
-export default function TableViewer({ modelUrl }) {
+export default function TableViewer({ modelUrl, color, material }) {
   // For standalone usage (like in the modal)
   if (typeof window !== 'undefined' && window.location.pathname.includes('/showcase')) {
     // In showcase page, just return the model without Canvas wrapper
-    return modelUrl ? <TableGLTFModel url={modelUrl} /> : <Table />;
+    return modelUrl ? <TableGLTFModel url={modelUrl} /> : <Table color={color} material={material} />;
   }
 
   // For other usages, return the full Canvas setup
@@ -101,7 +112,7 @@ export default function TableViewer({ modelUrl }) {
           {modelUrl ? (
             <TableGLTFModel url={modelUrl} />
           ) : (
-            <Table />
+            <Table color={color} material={material} />
           )}
         </group>
 

@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import supabase from '../utils/Supabase';
+import { mockSignUp, mockSignIn, mockSignOut, initMockAuth } from '../services/mockAuth';
+
+// Always use mock auth in production to avoid Supabase connection issues
+const USE_MOCK_AUTH = true;
 
 const AuthContext = createContext({});
 
@@ -8,24 +11,52 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check active sessions and sets the user
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    // Initialize auth
+    const initAuth = async () => {
+      try {
+        // Always use mock auth
+        if (USE_MOCK_AUTH) {
+          const storedUser = initMockAuth();
+          setUser(storedUser);
+        } else {
+          // This branch is never executed but kept for reference
+          throw new Error('External auth not supported');
+        }
+      } catch (error) {
+        console.error('Auth initialization error:', error);
+        // Fallback to mock auth if external auth fails
+        const storedUser = initMockAuth();
+        setUser(storedUser);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    // Listen for changes on auth state (sign in, sign out, etc.)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
+    initAuth();
   }, []);
 
   const value = {
-    signUp: (data) => supabase.auth.signUp(data),
-    signIn: (data) => supabase.auth.signInWithPassword(data),
-    signOut: () => supabase.auth.signOut(),
+    signUp: async (data) => {
+      const result = await mockSignUp(data);
+      if (!result.error) {
+        setUser(result.user);
+      }
+      return result;
+    },
+    signIn: async (data) => {
+      const result = await mockSignIn(data);
+      if (!result.error) {
+        setUser(result.user);
+      }
+      return result;
+    },
+    signOut: async () => {
+      const result = await mockSignOut();
+      if (!result.error) {
+        setUser(null);
+      }
+      return result;
+    },
     user,
   };
 

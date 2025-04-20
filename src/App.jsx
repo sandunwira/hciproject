@@ -10,6 +10,9 @@ import LoginPage from './pages/Login';
 import SignUpPage from './pages/SignUp';
 import DashboardPage from './pages/Dashboard';
 import ShowcasePage from './pages/Showcase';
+import UserDesignsPage from './pages/UserDesigns';
+import CustomizeFurniturePage from './pages/CustomizeFurniture';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
@@ -24,8 +27,22 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          } />
           <Route path="/showcase" element={<ShowcasePage />} />
+          <Route path="/my-designs" element={
+            <ProtectedRoute>
+              <UserDesignsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/customize" element={
+            <ProtectedRoute>
+              <CustomizeFurniturePage />
+            </ProtectedRoute>
+          } />
         </Routes>
       </Router>
     </AuthProvider>

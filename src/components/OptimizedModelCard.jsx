@@ -11,7 +11,7 @@ function OptimizedModelCard({ type, name, description, price, onClick }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const cardRef = useRef(null);
-  
+
   // Use Intersection Observer to only render 3D models when they're visible in the viewport
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -24,18 +24,18 @@ function OptimizedModelCard({ type, name, description, price, onClick }) {
         threshold: 0.1 // Trigger when at least 10% of the element is visible
       }
     );
-    
+
     if (cardRef.current) {
       observer.observe(cardRef.current);
     }
-    
+
     return () => {
       if (cardRef.current) {
         observer.unobserve(cardRef.current);
       }
     };
   }, []);
-  
+
   // Function to determine which 3D model to render based on type
   const renderModel = () => {
     switch (type) {
@@ -69,7 +69,7 @@ function OptimizedModelCard({ type, name, description, price, onClick }) {
   };
 
   return (
-    <div 
+    <div
       ref={cardRef}
       className="bg-gray-800 rounded-lg overflow-hidden transition-transform duration-300 hover:shadow-xl"
       onMouseEnter={() => setIsHovered(true)}
@@ -80,18 +80,18 @@ function OptimizedModelCard({ type, name, description, price, onClick }) {
         {isVisible ? (
           <Suspense fallback={
             <div className="w-full h-full flex items-center justify-center">
-              <img 
-                src={getFallbackImage()} 
-                alt={name} 
-                className="w-full h-full object-contain p-4" 
+              <img
+                src={getFallbackImage()}
+                alt={name}
+                className="w-full h-full object-contain p-4"
               />
             </div>
           }>
-            <Canvas 
-              shadows 
+            <Canvas
+              shadows
               dpr={[1, 1.5]} // Reduced DPR for better performance
-              gl={{ 
-                powerPreference: "low-power", 
+              gl={{
+                powerPreference: "low-power",
                 antialias: false, // Disable antialiasing for performance
                 depth: false // Disable depth buffer for performance
               }}
@@ -100,12 +100,12 @@ function OptimizedModelCard({ type, name, description, price, onClick }) {
               <ambientLight intensity={0.7} />
               <spotLight position={[5, 8, 5]} angle={0.15} penumbra={1} intensity={1} castShadow={false} />
               <PerspectiveCamera makeDefault position={[0, 0.5, 3]} fov={40} />
-              
+
               {/* Position adjusted to center the model */}
               <group position={[0, -0.7, 0]} rotation={[0, isHovered ? Math.PI * 2 : 0, 0]}>
                 {renderModel()}
               </group>
-              
+
               <OrbitControls
                 enablePan={false}
                 enableZoom={false}
@@ -121,27 +121,29 @@ function OptimizedModelCard({ type, name, description, price, onClick }) {
         ) : (
           // Show static image when not in viewport
           <div className="w-full h-full flex items-center justify-center">
-            <img 
-              src={getFallbackImage()} 
-              alt={name} 
-              className="w-full h-full object-contain p-4" 
+            <img
+              src={getFallbackImage()}
+              alt={name}
+              className="w-full h-full object-contain p-4"
             />
           </div>
         )}
-        
-        {/* Quick view button that appears on hover */}
+
+        {/* Action buttons that appear on hover */}
         {isHovered && (
           <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300">
-            <button 
-              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
-              onClick={() => onClick && onClick()}
-            >
-              Quick View
-            </button>
+            <div className="flex space-x-2">
+              <button
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+                onClick={() => onClick && onClick()}
+              >
+                {onClick && typeof onClick === 'function' && onClick.toString().includes('navigateToCustomize') ? 'Customize' : 'Quick View'}
+              </button>
+            </div>
           </div>
         )}
       </div>
-      
+
       {/* Model Information */}
       <div className="p-4">
         <h3 className="text-lg font-semibold text-white mb-1">{name}</h3>

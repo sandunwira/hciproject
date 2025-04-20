@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Wood Grain</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#8B4513" x="0" y="0" width="200" height="200"></rect>
+        <path d="M0,20 C50,15 100,25 150,15 C200,5 200,20 200,20 L200,30 C150,35 100,25 50,35 C0,45 0,30 0,30 L0,20 Z" fill="#A0522D" opacity="0.3"></path>
+        <path d="M0,50 C50,45 100,55 150,45 C200,35 200,50 200,50 L200,60 C150,65 100,55 50,65 C0,75 0,60 0,60 L0,50 Z" fill="#A0522D" opacity="0.3"></path>
+        <path d="M0,80 C50,75 100,85 150,75 C200,65 200,80 200,80 L200,90 C150,95 100,85 50,95 C0,105 0,90 0,90 L0,80 Z" fill="#A0522D" opacity="0.3"></path>
+        <path d="M0,110 C50,105 100,115 150,105 C200,95 200,110 200,110 L200,120 C150,125 100,115 50,125 C0,135 0,120 0,120 L0,110 Z" fill="#A0522D" opacity="0.3"></path>
+        <path d="M0,140 C50,135 100,145 150,135 C200,125 200,140 200,140 L200,150 C150,155 100,145 50,155 C0,165 0,150 0,150 L0,140 Z" fill="#A0522D" opacity="0.3"></path>
+        <path d="M0,170 C50,165 100,175 150,165 C200,155 200,170 200,170 L200,180 C150,185 100,175 50,185 C0,195 0,180 0,180 L0,170 Z" fill="#A0522D" opacity="0.3"></path>
+    </g>
+</svg>

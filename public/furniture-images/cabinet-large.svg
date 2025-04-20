@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400px" height="400px" viewBox="0 0 400 400" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <title>Cabinet</title>
+    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#4B5563" x="0" y="0" width="400" height="400"></rect>
+        <g transform="translate(100, 80)" stroke="#9CA3AF" stroke-width="8">
+            <!-- Cabinet body -->
+            <rect x="0" y="0" width="200" height="240" rx="4"></rect>
+            <!-- Cabinet shelves -->
+            <line x1="0" y1="80" x2="200" y2="80" stroke-linecap="round"></line>
+            <line x1="0" y1="160" x2="200" y2="160" stroke-linecap="round"></line>
+            <!-- Cabinet doors -->
+            <line x1="100" y1="0" x2="100" y2="240" stroke-linecap="round"></line>
+            <!-- Door handles -->
+            <circle cx="80" cy="120" r="6" fill="#9CA3AF"></circle>
+            <circle cx="120" cy="120" r="6" fill="#9CA3AF"></circle>
+        </g>
+    </g>
+</svg>
