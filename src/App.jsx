@@ -12,6 +12,8 @@ import DashboardPage from './pages/Dashboard';
 import ShowcasePage from './pages/Showcase';
 import UserDesignsPage from './pages/UserDesigns';
 import CustomizeFurniturePage from './pages/CustomizeFurniture';
+import RoomPlannerPage from './pages/RoomPlanner';
+import MyDesignsPage from './pages/MyDesigns';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -41,6 +43,16 @@ function App() {
           <Route path="/customize" element={
             <ProtectedRoute>
               <CustomizeFurniturePage />
+            </ProtectedRoute>
+          } />
+          <Route path="/room-planner/:id" element={
+            <ProtectedRoute>
+              <RoomPlannerPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/my-designs" element={
+            <ProtectedRoute>
+              <MyDesignsPage />
             </ProtectedRoute>
           } />
         </Routes>

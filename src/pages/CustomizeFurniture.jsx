@@ -1,13 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import ThreeDCustomizer from '../components/ThreeDCustomizer';
+import SimplifiedCustomizer from '../components/SimplifiedCustomizer';
 import { saveUserDesign } from '../services/userDesigns';
 
 function CustomizeFurniturePage() {
   const [item, setItem] = useState(null);
   const [designSaved, setDesignSaved] = useState(false);
+  const [use3DEditor, setUse3DEditor] = useState(true);
+  const [webGLError, setWebGLError] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Check if WebGL is supported
+  useEffect(() => {
+    try {
+      const canvas = document.createElement('canvas');
+      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+
+      if (!gl) {
+        console.warn('WebGL not supported, falling back to simplified editor');
+        setUse3DEditor(false);
+      }
+    } catch (e) {
+      console.error('WebGL detection failed:', e);
+      setUse3DEditor(false);
+    }
+  }, []);
 
   // Get the item from location state
   useEffect(() => {
@@ -67,9 +86,23 @@ function CustomizeFurniturePage() {
     );
   }
 
-  // Render the 3D customizer
-  return (
+  // Handle WebGL errors
+  const handleWebGLError = () => {
+    console.warn('WebGL error detected, switching to simplified editor');
+    setWebGLError(true);
+    setUse3DEditor(false);
+  };
+
+  // Render the appropriate customizer based on WebGL support
+  return use3DEditor && !webGLError ? (
     <ThreeDCustomizer
+      item={item}
+      onSave={handleSaveDesign}
+      onCancel={handleCancel}
+      onWebGLError={handleWebGLError}
+    />
+  ) : (
+    <SimplifiedCustomizer
       item={item}
       onSave={handleSaveDesign}
       onCancel={handleCancel}
