@@ -1,64 +1,82 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+
 import HomePage from './pages/Home';
-import PrivacyPolicyPage from './pages/PrivacyPolicy';
-import TermsOfServicePage from './pages/TermsOfService';
-import CookiePolicyPage from './pages/CookiePolicy';
-import LicensesPage from './pages/Licenses';
-import ContactPage from './pages/Contact';
 import LoginPage from './pages/Login';
-import SignUpPage from './pages/SignUp';
-import DashboardPage from './pages/Dashboard';
-import ShowcasePage from './pages/Showcase';
-import UserDesignsPage from './pages/UserDesigns';
-import CustomizeFurniturePage from './pages/CustomizeFurniture';
-import RoomPlannerPage from './pages/RoomPlanner';
+import RegisterPage from './pages/Register';
+import ProfilePage from './pages/Profile';
+import CreateDesignPage from './pages/CreateDesign';
+import EditDesignPage from './pages/EditDesign';
+import ViewDesignPage from './pages/ViewDesign';
+import DesignGalleryPage from './pages/DesignGallery';
 import MyDesignsPage from './pages/MyDesigns';
-import ProtectedRoute from './components/ProtectedRoute';
+import SettingsPage from './pages/Settings';
+
+// Protected route component
+function ProtectedRoute({ children }) {
+	const { user, loading } = useAuth();
+
+	if (loading) return <div className="w-full h-screen flex items-center justify-center">Loading...</div>;
+
+	if (!user) return <Navigate to="/login" />;
+
+	return children;
+}
+
+function AppRoutes() {
+	return (
+		<Router>
+			<Routes>
+				<Route path="/" element={<HomePage />} />
+				<Route path="/login" element={<LoginPage />} />
+				<Route path="/register" element={<RegisterPage />} />
+				<Route path="/profile" element={
+					<ProtectedRoute>
+						<ProfilePage />
+					</ProtectedRoute>
+				} />
+				<Route path="/settings" element={
+					<ProtectedRoute>
+						<SettingsPage />
+					</ProtectedRoute>
+				} />
+				<Route path="/create" element={
+					<ProtectedRoute>
+						<CreateDesignPage />
+					</ProtectedRoute>
+				} />
+				<Route path="/edit/:designId" element={
+					<ProtectedRoute>
+						<EditDesignPage />
+					</ProtectedRoute>
+				} />
+				<Route path="/design/:designId" element={
+					<ProtectedRoute>
+						<ViewDesignPage />
+					</ProtectedRoute>
+				} />
+				<Route path="/gallery" element={
+					<ProtectedRoute>
+						<DesignGalleryPage />
+					</ProtectedRoute>
+				} />
+				<Route path="/designs" element={
+					<ProtectedRoute>
+						<MyDesignsPage />
+					</ProtectedRoute>
+				} />
+			</Routes>
+		</Router>
+	);
+}
+
 
 function App() {
-  return (
-    <AuthProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-          <Route path="/terms" element={<TermsOfServicePage />} />
-          <Route path="/cookies" element={<CookiePolicyPage />} />
-          <Route path="/licenses" element={<LicensesPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <DashboardPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/showcase" element={<ShowcasePage />} />
-          <Route path="/my-designs" element={
-            <ProtectedRoute>
-              <UserDesignsPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/customize" element={
-            <ProtectedRoute>
-              <CustomizeFurniturePage />
-            </ProtectedRoute>
-          } />
-          <Route path="/room-planner/:id" element={
-            <ProtectedRoute>
-              <RoomPlannerPage />
-            </ProtectedRoute>
-          } />
-          <Route path="/my-designs" element={
-            <ProtectedRoute>
-              <MyDesignsPage />
-            </ProtectedRoute>
-          } />
-        </Routes>
-      </Router>
-    </AuthProvider>
-  );
+	return (
+		<AuthProvider>
+			<AppRoutes />
+		</AuthProvider>
+	)
 }
 
 export default App;

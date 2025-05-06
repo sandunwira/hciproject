@@ -1,159 +1,117 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
+import supabase from '../utils/Supabase';
+
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const { signIn } = useAuth();
-  const navigate = useNavigate();
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
+	const location = useLocation();
+	const { signIn } = useAuth();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+	const redirectMessage = location.state?.message;
 
-    if (!email || !password) {
-      setError('Please fill in all fields');
-      return;
-    }
+	// Check if the user is logged in
+	useEffect(() => {
+		const checkUserSession = async () => {
+			const { data } = await supabase.auth.getSession();
+			if (data.session) {
+				// User is logged in, redirect to profile page
+				navigate('/');
+			}
+		};
+		checkUserSession();
+	}, [navigate]);
 
-    try {
-      setError('');
-      setLoading(true);
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setError(null);
+		setLoading(true);
 
-      const { error } = await signIn({ email, password });
+		try {
+			const { error } = await signIn(email, password);
+			if (error) throw error;
+			navigate('/profile');
+		} catch (error) {
+			setError(error.message);
+		} finally {
+			setLoading(false);
+		}
+	};
 
-      if (error) throw error;
+	return (
+		<>
+			<Navbar />
 
-      // Redirect to dashboard on successful login
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Error signing in:', error.message);
-      setError(error.message || 'Failed to sign in');
-    } finally {
-      setLoading(false);
-    }
-  };
+			<div className="min-h-screen flex items-center justify-center bg-gray-900 py-12 px-4 sm:px-6 lg:px-8">
+				<div className="max-w-md w-full space-y-8">
+					<div>
+						<h2 className="mt-6 text-center text-3xl font-extrabold text-white">Sign in to your account</h2>
+						<p className="mt-2 text-center text-sm text-gray-400">
+							Or{' '}
+							<Link to="/register" className="font-medium text-blue-500 hover:text-blue-400">
+								create a new account
+							</Link>
+						</p>
+					</div>
+					<form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+						{error && <div className="bg-red-900/50 border border-red-500 text-red-300 px-4 py-3 rounded">{error}</div>}
+						{redirectMessage && <div className="bg-yellow-900/50 border border-yellow-500 text-yellow-300 px-4 py-3 rounded">{redirectMessage}</div>}
+						
+						<div className="rounded-md -space-y-px">
+							<div>
+								<label htmlFor="email-address" className="sr-only">Email address</label>
+								<input
+									id="email-address"
+									name="email"
+									type="email"
+									autoComplete="email"
+									required
+									className="appearance-none rounded-t-md relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+									placeholder="Email address"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+								/>
+							</div>
+							<div>
+								<label htmlFor="password" className="sr-only">Password</label>
+								<input
+									id="password"
+									name="password"
+									type="password"
+									autoComplete="current-password"
+									required
+									className="appearance-none rounded-b-md relative block w-full px-3 py-3 border border-gray-700 placeholder-gray-500 text-white bg-gray-800 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
+									placeholder="Password"
+									value={password}
+									onChange={(e) => setPassword(e.target.value)}
+								/>
+							</div>
+						</div>
 
-  // Helper function to handle demo login
-  const handleDemoLogin = async () => {
-    setEmail('demo@furnitureviz.com');
-    setPassword('demo123');
+						<div>
+							<button
+								type="submit"
+								disabled={loading}
+								className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed"
+							>
+								{loading ? 'Signing in...' : 'Sign in'}
+							</button>
+						</div>
 
-    try {
-      setError('');
-      setLoading(true);
-
-      const { error } = await signIn({
-        email: 'demo@furnitureviz.com',
-        password: 'demo123'
-      });
-
-      if (error) throw error;
-
-      // Redirect to dashboard on successful login
-      navigate('/dashboard');
-    } catch (error) {
-      console.error('Error signing in with demo account:', error.message);
-      setError(error.message || 'Failed to sign in with demo account');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <>
-      <Navbar />
-      <div className="w-full min-h-screen bg-[#0A1628] text-white">
-        <div className="container mx-auto px-4 py-16">
-          <div className="max-w-md mx-auto bg-gray-800 p-8 rounded-lg shadow-lg">
-            <h1 className="text-3xl font-bold mb-6 text-center">Designer Login</h1>
-
-            {error && (
-              <div className="bg-red-800/50 text-red-200 p-4 rounded-lg mb-6">
-                {error}
-              </div>
-            )}
-
-            <form onSubmit={handleSubmit}>
-              <div className="mb-4">
-                <label htmlFor="email" className="block text-gray-300 mb-2">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-
-              <div className="mb-6">
-                <label htmlFor="password" className="block text-gray-300 mb-2">Password</label>
-                <input
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className={`w-full bg-blue-500 hover:bg-blue-600 transition-colors text-white font-semibold py-3 px-6 rounded-lg ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
-              >
-                {loading ? 'Signing in...' : 'Sign In'}
-              </button>
-            </form>
-
-            <div className="mt-6 text-center">
-              <button
-                type="button"
-                onClick={handleDemoLogin}
-                className="w-full bg-gray-600 hover:bg-gray-700 transition-colors text-white font-semibold py-3 px-6 rounded-lg mt-2"
-              >
-                Use Demo Account
-              </button>
-              <p className="text-gray-400 mt-4">
-                Forgot your password?{' '}
-                <Link to="/reset-password" className="text-blue-400 hover:underline">
-                  Reset it here
-                </Link>
-              </p>
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-gray-700 text-center">
-              <p className="text-gray-400">
-                Don't have an account?{' '}
-                <Link to="/signup" className="text-blue-400 hover:underline">
-                  Sign up
-                </Link>
-              </p>
-            </div>
-          </div>
-
-          <div className="max-w-md mx-auto mt-8 p-6 bg-gray-800/50 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Demo Credentials</h2>
-            <p className="text-gray-300 mb-2">For demonstration purposes, you can use:</p>
-            <div className="bg-gray-700 p-4 rounded-lg">
-              <p className="text-gray-300"><strong>Email:</strong> demo@furnitureviz.com</p>
-              <p className="text-gray-300"><strong>Password:</strong> demo123</p>
-            </div>
-            <p className="text-gray-400 mt-4 text-sm">
-              Note: These credentials are for demonstration only and provide limited access.
-            </p>
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </>
-  );
+						<div className="text-center text-sm text-gray-400">
+							<p>Don't have an account? <Link to="/register" className="font-medium text-blue-500 hover:text-blue-400">Register</Link></p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</>
+	);
 }
 
 export default LoginPage;

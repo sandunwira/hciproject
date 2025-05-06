@@ -1,143 +1,95 @@
-# FurnitureViz - Furniture Design Application
+# FurnitureViz - 3D Furniture Visualization Platform
 
-## Project Overview
-FurnitureViz is a desktop application developed for a furniture design company to help customers visualize furniture in their rooms before purchase. The application allows designers to create customized room layouts, add furniture items, and visualize them in both 2D and 3D formats based on room size, color schemes, and shapes.
+FurnitureViz is an interactive web application that helps users visualize furniture arrangements in their spaces. Whether you're an interior designer, a furniture retailer, or simply planning your home renovation, FurnitureViz makes it easy to create, visualize, and share room designs with accurate furniture placement.
 
 ## Features
-- **User Authentication**: Secure login for designers
-- **Room Configuration**: Set size, shape, and color scheme for rooms
-- **2D Design Creation**: Create and modify furniture layouts in 2D
-- **3D Visualization**: Convert 2D designs to 3D for better visualization
-- **Scaling Options**: Scale designs to best fit the room dimensions
-- **Shading & Coloring**: Apply shades and change colors of whole designs or selected parts
-- **Design Management**: Save, edit, and delete designs
 
-## Technology Stack
-- **Frontend**: React.js with Tailwind CSS
-- **User Interface**: Custom UI components for furniture manipulation
-- **Visualization**: 2D & 3D rendering capabilities
-- **State Management**: React hooks for state management
-- **Styling**: Tailwind CSS for responsive design
+### User Management
+- **Secure Authentication**: User registration and login system built with Supabase
+- **Profile Management**: Personalized user profiles with customizable display names
+- **Session Persistence**: Seamless experience across browser sessions
 
-## Installation
+### Room Design Tools
+- **Custom Room Creation**: 
+  - Define precise room dimensions (width, length, height)
+  - Choose between different room shapes (rectangular, L-shaped)
+  - Customize wall and floor colors with hex color picker
 
-### Prerequisites
-- Node.js (v14.0 or later)
-- npm (v6.0 or later)
+### Visualization Modes
+- **Multi-view Visualization**:
+  - 2D top-down view for precise furniture placement
+  - 3D perspective view to visualize the final look
+  - Split-screen mode to see both views simultaneously
+  - Single-click toggle between visualization modes
 
-### Setup Instructions
-1. Clone the repository:
-   ```
-   git clone https://github.com/your-username/furniture-viz.git
-   cd furniture-viz
-   ```
+### Furniture Library
+- **Pre-built Collection**: Includes common furniture pieces:
+  - Dining chairs
+  - Dining tables
+  - Lounge chairs
+  - Coffee tables
+  - Side tables
+- **Detailed Specifications**: Each piece includes accurate dimensions and color options
 
-2. Install dependencies:
-   ```
-   npm install
-   ```
+### Furniture Manipulation
+- **Intuitive Controls**:
+  - Drag-and-drop positioning in 2D view
+  - Precise coordinate controls for exact placement
+  - Rotation adjustment for perfect alignment
+  - Scale modification to fit different furniture sizes
+  - Color customization with color picker interface
 
-3. Start the development server:
-   ```
-   npm run dev
-   ```
+### Design Management
+- **Project Organization**:
+  - Save designs with custom names
+  - Browse all previously created designs
+  - Edit existing room designs
+  - Delete unwanted projects
+  - Search through saved designs by name
+  - Sort designs by creation date (newest/oldest)
 
-4. The application will be available at `http://localhost:3000`
+### Design Gallery & Sharing
+- **Community Features**:
+  - View designs created by other users
+  - Share your designs with clients or colleagues
 
-## Project Structure
-```
-furniture-viz/
-├── public/
-│   ├── index.html
-│   └── assets/
-├── src/
-│   ├── components/
-│   │   ├── Auth/
-│   │   ├── Designer/
-│   │   ├── FurnitureItems/
-│   │   ├── Room/
-│   │   ├── Visualization/
-│   │   └── common/
-│   ├── pages/
-│   │   ├── HomePage.jsx
-│   │   ├── LoginPage.jsx
-│   │   ├── DesignerDashboard.jsx
-│   │   └── RoomDesigner.jsx
-│   ├── utils/
-│   ├── App.jsx
-│   └── index.js
-├── package.json
-└── README.md
-```
+### User Interface
+- **Modern Design**:
+  - Clean, dark-themed interface
+  - Responsive layout adapting to different screen sizes
+  - Intuitive navigation system with clear visual hierarchy
+  - Split-view workspace for efficient design
 
-## Usage Guide
+## Technical Details
+- Built with React.js for dynamic UI components
+- Three.js for 3D visualization rendering
+- Supabase backend for authentication and database storage
+- Tailwind CSS for responsive, modern styling
+- Real-time updates for interactive furniture manipulation
 
-### Designer Login
-1. Navigate to the application URL
-2. Click on "Designer Login" button on the homepage
-3. Enter credentials to access the designer dashboard
+## Getting Started
 
-### Creating a New Design
-1. From the designer dashboard, click "Create New Design"
-2. Specify room parameters (size, shape, color scheme)
-3. Use the toolbar to add furniture items to the room
-4. Arrange items as needed using drag and drop
+1. Create an account or sign in to your existing account
+2. Click "Create Design" in the navigation bar
+3. Set your room dimensions and properties
+4. Add furniture pieces from the library panel
+5. Position and customize your furniture
+6. Save your design with a descriptive name
+7. Access your designs anytime from the "My Designs" page
 
-### 2D to 3D Visualization
-1. Create your design in 2D view
-2. Click the "3D View" button to convert the design to 3D
-3. Use mouse controls to rotate and view the design from different angles
+## Use Cases
 
-### Customizing Furniture
-1. Select a furniture item in the design
-2. Use the properties panel to modify:
-   - Color (whole item or parts)
-   - Shading effects
-   - Size and scale
+- Interior designers creating client presentations
+- Furniture retailers helping customers visualize products in their homes
+- Homeowners planning renovations or furniture purchases
+- Design students learning about space planning and furniture layout
+- Real estate agents staging virtual properties
 
-### Saving Designs
-1. Click the "Save Design" button
-2. Enter a name for the design
-3. The design will be saved and accessible from the dashboard
+## Future Enhancements
 
-## Development
-
-### Contributing
-1. Fork the repository
-2. Create a feature branch
-   ```
-   git checkout -b feature/your-feature-name
-   ```
-3. Commit your changes
-   ```
-   git commit -m "Add your feature description"
-   ```
-4. Push to the branch
-   ```
-   git push origin feature/your-feature-name
-   ```
-5. Open a pull request
-
-## Testing
-Run the test suite:
-```
-npm test
-```
-
-## Project Requirements (Based on Coursework Brief)
-This project is developed as part of the PUSL3122 HCI, Computer Graphics, and Visualization module. It follows requirements specified in the coursework brief which include:
-- Creating a desktop application for furniture visualization
-- Implementing both 2D and 3D views
-- Providing color and shading functionality
-- Supporting multiple furniture types (chairs, tables, etc.)
-- Allowing designers to save designs
-
-## Team Members
-- Sandun Wiratunga - [@sandunwira](https://github.com/sandunwira)
-- Ruwin Hettiarachchi - [@Ruwinsh](https://github.com/Ruwinsh)
-- Bodhisaranage Jayamanna - [@sasindujayamanna](https://github.com/sasindujayamanna)
-- Dissanayake Dissanayake - [@ThenuraDissanayake](https://github.com/ThenuraDissanayake)
-- Meepe Perera - [@ylp1455](https://github.com/ylp1455)
-
-## License
-[MIT License](LICENSE)
+- Additional room shapes and architectural features
+- Expanded furniture library with more categories
+- Custom furniture import capabilities
+- Enhanced lighting simulation
+- AR/VR compatibility
+- Collaborative design tools for team projects

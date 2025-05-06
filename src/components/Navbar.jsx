@@ -1,145 +1,275 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import React, { useState, useEffect, useRef } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from '../contexts/AuthContext';
+import * as DiceBear from '@dicebear/core';
+import * as identiconStyle from '@dicebear/identicon';
+import supabase from '../utils/Supabase';
 
 function Navbar() {
-  const { user, signOut } = useAuth();
-  const navigate = useNavigate();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const navigate = useNavigate();
+	const location = useLocation();
+	const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const profileDropdownRef = useRef(null);
+	const { user, signOut } = useAuth();
+	const [userProfile, setUserProfile] = useState(null);
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate('/');
-  };
+	const getUserInfo = async () => {
+		try {
+			if (!user) return null;
 
-  return (
-    <nav className="fixed top-0 left-0 right-0 bg-[#0A1628]/90 backdrop-blur-sm z-50 border-b border-gray-800">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <span className="text-2xl font-bold text-white">Furniture<span className="text-blue-500">Viz</span></span>
-          </Link>
+			const { data, error } = await supabase
+				.from('profiles')
+				.select('*')
+				.eq('id', user.id)
+				.single();
 
-          {/* Navigation Links */}
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/features" className="text-gray-300 hover:text-white transition-colors">
-              Features
-            </Link>
-            <Link to="/showcase" className="text-gray-300 hover:text-white transition-colors">
-              Furniture Showcase
-            </Link>
-            {user && (
-              <>
-                <Link to="/room-planner/new" className="text-gray-300 hover:text-white transition-colors">
-                  Room Planner
-                </Link>
-                <Link to="/my-designs" className="text-gray-300 hover:text-white transition-colors">
-                  My Designs
-                </Link>
-              </>
-            )}
-            <Link to="/contact" className="text-gray-300 hover:text-white transition-colors">
-              Contact
-            </Link>
-          </div>
+			if (error) {
+				console.error("Supabase profile error:", error);
+				throw error;
+			}
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-300 hover:text-white"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                {mobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                )}
-              </svg>
-            </button>
-          </div>
+			if (data) {
+				setUserProfile(data);
+			}
+		} catch (error) {
+			console.error("Error fetching user data:", error);
+			return null;
+		}
+	};
 
-          {/* Auth Buttons / Profile */}
-          <div className="hidden md:flex items-center space-x-4">
-            {user ? (
-              <div className="relative group">
-                <button className="flex items-center space-x-2">
-                  <div className="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center">
-                    <span className="text-sm font-medium text-white">{user.email?.substring(0, 2).toUpperCase() || 'U'}</span>
-                  </div>
-                </button>
-                {/* Dropdown Menu */}
-                <div className="absolute right-0 mt-2 w-48 py-2 bg-gray-800 rounded-lg shadow-xl hidden group-hover:block">
-                  <Link to="/dashboard" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
-                    Dashboard
-                  </Link>
-                  <Link to="/profile" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
-                    Profile
-                  </Link>
-                  <Link to="/settings" className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">
-                    Settings
-                  </Link>
-                  <button
-                    onClick={handleSignOut}
-                    className="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-700"
-                  >
-                    Sign Out
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
-                <Link to="/login" className="text-gray-300 hover:text-white transition-colors">
-                  Designer Login
-                </Link>
-                <Link to="/signup" className="bg-blue-500 px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                  Get Started
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
+	useEffect(() => {
+		getUserInfo();
+	}, [user]);
 
-      {/* Mobile menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-gray-800 py-4 px-4">
-          <div className="flex flex-col space-y-3">
-            <Link to="/features" className="text-gray-300 hover:text-white transition-colors py-2">
-              Features
-            </Link>
-            <Link to="/showcase" className="text-gray-300 hover:text-white transition-colors py-2">
-              Furniture Showcase
-            </Link>
-            {user && (
-              <>
-                <Link to="/room-planner/new" className="text-gray-300 hover:text-white transition-colors py-2">
-                  Room Planner
-                </Link>
-                <Link to="/my-designs" className="text-gray-300 hover:text-white transition-colors py-2">
-                  My Designs
-                </Link>
-              </>
-            )}
-            <Link to="/contact" className="text-gray-300 hover:text-white transition-colors py-2">
-              Contact
-            </Link>
-            {!user && (
-              <>
-                <Link to="/login" className="text-gray-300 hover:text-white transition-colors py-2">
-                  Designer Login
-                </Link>
-                <Link to="/signup" className="bg-blue-500 px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
-                  Get Started
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-    </nav>
-  );
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
+				setIsProfileDropdownOpen(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => document.removeEventListener('mousedown', handleClickOutside);
+	}, []);
+
+	const handleLogout = async () => {
+		try {
+			await signOut();
+			navigate('/');
+		} catch (error) {
+			console.error('Failed to logout:', error);
+		}
+	};
+
+	const getNavLinkClass = (path) => {
+		const isActive = location.pathname === path;
+		return `flex items-center justify-center gap-2 text-sm font-medium ${isActive ? 'text-blue-400' : 'text-gray-300 hover:text-white'} px-3 py-2 rounded-md transition duration-150`;
+	};
+
+	return (
+		<nav className="bg-gray-900 shadow-md sticky top-0 z-20">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="flex justify-between items-center h-16">
+					<div className="flex items-center">
+						<Link to="/" className="flex-shrink-0">
+							<h1 className="text-xl font-bold text-white">FurnitureViz</h1>
+						</Link>
+						<div className="hidden md:block ml-10">
+							<div className="flex items-baseline space-x-4">
+								<Link to="/" className={getNavLinkClass('/')}>
+									Home
+								</Link>
+								{user && (
+									<>
+										<Link to="/create" className={getNavLinkClass('/create')}>
+											Create Design
+										</Link>
+										<Link to="/designs" className={getNavLinkClass('/designs')}>
+											My Designs
+										</Link>
+										<Link to="/gallery" className={getNavLinkClass('/gallery')}>
+											Gallery
+										</Link>
+									</>
+								)}
+							</div>
+						</div>
+					</div>
+					<div className="hidden md:block">
+						<div className="ml-4 flex items-center md:ml-6">
+							{user ? (
+								<div className="relative" ref={profileDropdownRef}>
+									<button
+										onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+										className="flex items-center gap-2 bg-gray-800 p-1 rounded-full text-gray-200 hover:text-white focus:outline-none cursor-pointer"
+									>
+										<img
+											src={DiceBear.createAvatar(identiconStyle, {
+												seed: user.id,
+												backgroundColor: ['3B82F6'],
+												backgroundType: ['solid'],
+											}).toDataUri()}
+											alt="avatar"
+											className="h-8 w-8 rounded-full border-2 border-blue-500"
+										/>
+										<svg xmlns="http://www.w3.org/2000/svg" className={`h-5 w-5 transition-transform duration-200 ${isProfileDropdownOpen ? 'rotate-180' : ''}`} viewBox="0 0 20 20" fill="currentColor">
+											<path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+										</svg>
+									</button>
+
+									{isProfileDropdownOpen && (
+										<div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
+											<Link
+												to="/profile"
+												className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+											>
+												Profile
+											</Link>
+											<Link
+												to="/settings"
+												className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+											>
+												Settings
+											</Link>
+											<button
+												onClick={handleLogout}
+												className="block w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700"
+											>
+												Sign out
+											</button>
+										</div>
+									)}
+								</div>
+							) : (
+								<Link to="/login"
+									className="ml-3 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+								>
+									<svg xmlns="http://www.w3.org/2000/svg" className="mr-2 -ml-1 h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+										<path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+									</svg>
+									Login
+								</Link>
+							)}
+						</div>
+					</div>
+					
+					{/* Mobile menu button */}
+					<div className="md:hidden">
+						<button
+							onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+							className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none"
+						>
+							<span className="sr-only">Open main menu</span>
+							{!isMobileMenuOpen ? (
+								<svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+								</svg>
+							) : (
+								<svg className="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+								</svg>
+							)}
+						</button>
+					</div>
+				</div>
+			</div>
+
+			{/* Mobile menu, toggle classes based on menu state */}
+			{isMobileMenuOpen && (
+				<div className="md:hidden">
+					<div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+						<Link to="/" className={location.pathname === '/' ? 
+							'block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-800' : 
+							'block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700'
+						}>
+							Home
+						</Link>
+						
+						{user && (
+							<>
+								<Link to="/create" className={location.pathname === '/create' ? 
+									'block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-800' : 
+									'block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700'
+								}>
+									Create Design
+								</Link>
+								<Link to="/designs" className={location.pathname === '/designs' ? 
+									'block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-800' : 
+									'block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700'
+								}>
+									My Designs
+								</Link>
+								<Link to="/gallery" className={location.pathname === '/gallery' ? 
+									'block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-800' : 
+									'block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700'
+								}>
+									Gallery
+								</Link>
+							</>
+						)}
+					</div>
+					
+					<div className="pt-4 pb-3 border-t border-gray-700">
+						{user ? (
+							<>
+								<div className="flex items-center px-5">
+									<div className="flex-shrink-0">
+										<img
+											className="h-10 w-10 rounded-full"
+											src={DiceBear.createAvatar(identiconStyle, {
+												seed: user.id,
+												backgroundColor: ['3B82F6'],
+												backgroundType: ['solid'],
+											}).toDataUri()}
+											alt="Profile"
+										/>
+									</div>
+									<div className="ml-3">
+										<div className="text-base font-medium leading-none text-white">
+											{userProfile?.display_name || 'Designer'}
+										</div>
+										<div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
+									</div>
+								</div>
+								<div className="mt-3 px-2 space-y-1">
+									<Link to="/profile" 
+										className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
+									>
+										Your Profile
+									</Link>
+									<Link to="/settings"
+										className="block px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700"
+									>
+										Settings
+									</Link>
+									<button
+										onClick={handleLogout}
+										className="w-full text-left block px-3 py-2 rounded-md text-base font-medium text-red-400 hover:text-red-300 hover:bg-gray-700"
+									>
+										Sign out
+									</button>
+								</div>
+							</>
+						) : (
+							<div className="px-5">
+								<Link to="/login"
+									className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
+								>
+									Login
+								</Link>
+								<Link to="/register"
+									className="mt-2 w-full flex justify-center py-2 px-4 border border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-200 bg-gray-800 hover:bg-gray-700"
+								>
+									Register
+								</Link>
+							</div>
+						)}
+					</div>
+				</div>
+			)}
+		</nav>
+	);
 }
 
 export default Navbar;
